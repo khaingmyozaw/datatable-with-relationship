@@ -32,7 +32,10 @@
                 {data: 'id', name: 'id', render: function(data, type, row, meta) {
                     return meta.row + 1;
                 }},
-                {data: 'created_at', name: 'created_at'},
+                {data: 'created_at', name: 'created_at', render: function(data) {
+                    var date = new Date(data);
+                    return date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
+                }},
                 {data: 'contents', name: 'contents'},
             ]
         })
