@@ -19,7 +19,12 @@ class UserController extends Controller
                     return Str::limit($data->name, '8', '...');
                 })
                 ->addColumn('action', function($row) {
-                    return '<a href="/users/'. $row->id .'" class="btn btn-sm btn-primary">View Posts</a>';
+                    return '<form method="POST" action="/users/destroy/'. $row->id .'">
+                            '.csrf_field().'
+                            <a href="/users/'. $row->id .'" class="btn btn-sm btn-primary">View Posts</a>
+                            
+                            <button type="submit" class="btn btn-sm btn-danger">Delete User</a>
+                            </form>';
                 })
                 ->toJson();
         }
@@ -37,5 +42,12 @@ class UserController extends Controller
                             ->toJson();
         }
         return view('layouts.posts');
+    }
+
+    public function destroy(string $id)
+    {
+        User::find($id)->delete();
+        
+        return redirect()->back();
     }
 }
